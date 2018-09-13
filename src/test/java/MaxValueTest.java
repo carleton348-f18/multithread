@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import java.net.InetAddress;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -57,7 +58,11 @@ public class MaxValueTest {
         System.out.println("Parallel time = " + parallelTime);
         double speedup = ((double)seqTime)/parallelTime;
         System.out.println("Speedup = " + speedup);
-        assertTrue(parallelTime <= seqTime / ((2./3)*numThreads));
         assertEquals(parallelMax, seqMax, 1e-9);
+
+        if (InetAddress.getLocalHost().getHostName().startsWith("cmc")) {
+            System.out.println("Running speedup test");
+            assertTrue(parallelTime <= seqTime / ((2. / 3) * numThreads));
+        }
     }
 }
